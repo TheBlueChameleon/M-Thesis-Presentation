@@ -1,0 +1,20 @@
+# patterns to exclude
+*.aux
+*.log
+*.lof
+*.lot
+*.out
+*.pdf
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+*.run.xml
+*.nav
+*.snm
+
+# files to ignore
+.directory
+
+# directories to exclude
+_minted-main/
