@@ -54,6 +54,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{dsfont}
+\usepackage{mathtools}
+
+\let\olddiv\div
 \usepackage[arrowdel]{physics}
 
 \usepackage{minted}
@@ -91,62 +94,61 @@
 %==============================================================================%
 % GLOBAL MACROS
 
-\newcommand*{\ie}{i.\,e.\xspace}
-\newcommand*{\eg}{e.\,g.\xspace}
-
-\newcommand*{\conj}[1]{\overline{#1}}
-\newcommand*{\mean}[1]{\overline{#1}}
-
-\newcommand*{\setnaturals}{\mathbb{N}}
-\newcommand*{\setintegers}{\mathbb{Z}}
-\newcommand*{\setreals}   {\mathbb{R}}
-\newcommand*{\setcomplex} {\mathbb{C}}
-
 %\addtokomafont{labelinglabel}{\sffamily}
 
 \newcommand*{\tabcrlf}{\\ \hline}			% actually still allows for optional argument
 
-\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
-\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
-%\newcommand*{\abs}[1]{\left\lvert {#1} \right\rvert}		% already defined in package physics - apparently does the same there.
+% text elements
+\newcommand*{\TODO}[1][!]{{\color{red} TODO #1}}
 
-\DeclareMathOperator{\perm}{perm}
-\DeclareMathOperator{\sign}{sign}
-
-\newcommand*{\iunit}{\mathsf{i}}
-\newcommand*{\light}    {\ensuremath{\mathrm{c_0}}}
-\newcommand*{\Planck}   {\ensuremath{\mathrm{h}}}
-\newcommand*{\Hamilton} {\ensuremath{\hat{\mathcal{H}}}}
-% \dd: upright d for differentials
-% \dv[n]{x}: d^n/dx^n
-% \pdv -- same for partial derivatives
-% \braket{n}         --> <n|n>
-% \braket{n}{m}      --> <n|m>
-% \expval{A}         --> <A>
-% \expval{A}{x}      --> <x|A|x>
-% \matrixel{n}{A}{m} --> <n|A|m>
-% \partial is already defined - just in case you need to look it up.
-% physics package holds \dv[n]{x}, \dv[n]{f}{x} and \pdv
-
-% local abbreviations for this doc
-\newcommand*{\kPsi}{\ensuremath{\ket{\Psi}}\xspace}
-\newcommand*{\kPhi}{\ensuremath{\ket{\Phi}}\xspace}
-\newcommand*{\kvac}{\ensuremath{\ket{ vac}}\xspace}
-
-\newcommand*{\opU}{\ensuremath{\hat   {U}     }\xspace}
-\newcommand*{\DFT}{\ensuremath{\mathbb{U}     }\xspace}
-\newcommand*{\opI}{\ensuremath{\hat   {U}^{-1}}\xspace}
-\newcommand*{\INV}{\ensuremath{\mathbb{U}^{-1}}\xspace}
-\newcommand*{\MAT}{\ensuremath{\mathbb{M}     }\xspace}
-
-\newcommand*{\evArg}{(\kPsi \thus \kPhi; \DFT)\xspace}
-\newcommand*{\nmArg}{(\vec{n}, \vec{m}; \DFT) \xspace}
-
-%\newcommand\norm[2]{\left\lVert#1\right\rVert_{#2}}
-\newcommand*{\transp}{\ensuremath{^\top}}
+\newcommand*{\ie}{i.\,e.\xspace}
+\newcommand*{\eg}{e.\,g.\xspace}
 
 \newcommand*{\thus}{\ensuremath{\rightarrow}\xspace}
 \newcommand*{\Thus}{\ensuremath{\Rightarrow}\xspace}
+
+\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
+\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
+
+% generic maths
+\newcommand*{\iunit}{\mathsf{i}}
+
+\newcommand*{\mean}[1]{\overline{#1}}
+\newcommand*{\conj}[1]{{#1}^{*}}
+\newcommand*{\transp}{\ensuremath{^\top}}
+
+\newcommand*{\ceil} [1]{\left\lceil {#1} \right\rceil }
+\newcommand*{\floor}[1]{\left\lfloor{#1} \right\rfloor}
+
+\DeclareMathOperator{\perm}{perm}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand*{\DD}[1]{\ensuremath{\text{D}\vec{#1}\;}}
+\newcommand*{\set}[1]{\ensuremath{\{#1\}}}
+
+% standard sets
+\newcommand*{\setNaturals}{\mathds{N}}
+\newcommand*{\setIntegers}{\mathds{Z}}
+\newcommand*{\setReals}   {\mathds{R}}
+\newcommand*{\setComplex} {\mathds{C}}
+
+% physics
+\newcommand*{\cre}[1][a]{\ensuremath{{\hat{#1}}^{\dagger}}}
+
+\newcommand*{\vac}{\ensuremath{\ket{\text{vac}}}\xspace}
+\newcommand*{\ketIn}{\ensuremath{\ket{\Psi}}\xspace}
+\newcommand*{\ketOut}{\ensuremath{\ket{\Phi}}\xspace}
+\newcommand*{\opU}{\ensuremath{\hat{U}}\xspace}
+\newcommand*{\matU}{\ensuremath{\mathbb{U}}\xspace}
+\newcommand*{\DFT}{\ensuremath{\mathbb{W}}\xspace}
+\newcommand*{\sysArgs}{\vec{m}, \vec{n}; \matU}
+
+% CS
+\newcommand*{\bigo}[1]{\ensuremath{\mathcal{O}(#1)}\xspace}
+
+\newcommand*{\inPy}[1]{\mintinline{python3}{#1}}
+\newcommand*{\inCPP}[1]{\mintinline{c++}{#1}}
 
 % =========================================================================== %
 
@@ -162,22 +164,5 @@ Stefan Hartinger}
 
 \begin{document}
 \include{content}
-
-%\begin{frame}[allowframebreaks]{References}
-%	\printbibliography
-%\end{frame}
-
-%\begin{frame}
-%\begin{columns}
-%\column{.5\linewidth}
-%\begin{Huge}
-%{Thank you for your attention.}
-%\end{Huge}
-%%
-%\column{.5\linewidth}
-%\includegraphics[width=\linewidth]{./gfx/unicorn}
-%\end{columns}
-%
-%\end{frame}
 
 \end{document}
