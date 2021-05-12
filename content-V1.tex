@@ -23,7 +23,7 @@
 %
 \begin{itemize}
 \item Use as bosonic equivalent to Slater Determinant
-\item Direct evaluation takes $\bigo{N!N}$ FLOPs -- compuatationally extremely hard (sign problem)
+\item Direct evaluation takes $\bigo{N!N}$ FLOPs -- compuatationally extremely hard
 \item[\Thus] Bosonic systems can be used to \enquote{measure} the permanent
 \item[\Thus] Quantum Supremacy
 \item Need for Certification
@@ -83,18 +83,18 @@
 		\ketOut
 	&=
 		\opU \ketIn = \opU \cre_1 \cre_2 \vac \\
-%	&=
-%		\qty(
-%			(\iunit \sqrt{R} \cre[b]_1 + \sqrt{T} \cre[b]_2)
-%			(\iunit \sqrt{R} \cre[b]_2 + \sqrt{T} \cre[b]_1)
-%		) \vac \\
-%	&=
-%		\qty(
-%			+ \iunit \sqrt{RT} (\cre[b]_1)^2
-%			+ \iunit \sqrt{RT} (\cre[b]_2)^2
-%			+ T \cre[b]_2 \cre[b]_1
-%			- R \cre[b]_1 \cre[b]_2
-%		) \vac \\
+	&=
+		\qty(
+			(\iunit \sqrt{R} \cre[b]_1 + \sqrt{T} \cre[b]_2)
+			(\iunit \sqrt{R} \cre[b]_2 + \sqrt{T} \cre[b]_1)
+		) \vac \\
+	&=
+		\qty(
+			+ \iunit \sqrt{RT} (\cre[b]_1)^2
+			+ \iunit \sqrt{RT} (\cre[b]_2)^2
+			+ T \cre[b]_2 \cre[b]_1
+			- R \cre[b]_1 \cre[b]_2
+		) \vac \\
 	&=
 		\qty(
 			+ \iunit \sqrt{RT} (\cre[b]_1)^2
@@ -166,12 +166,11 @@
 %
 \column{.30\linewidth}
 	\includegraphics[width=\linewidth]{./gfx/HOM-Phaseshift}
-	\begin{minipage}{\linewidth}
-		\tiny
+	{\scriptsize
 		Image Source:\\
 		Adam M. Kaufman et al. \enquote{The Hong–Ou–Mandel Effect With Atoms}.
 		\emph{Advances In Atomic, Molecular, and Optical Physics (2018)}
-	\end{minipage}
+	}
 \end{columns}
 %
 \end{frame}
@@ -205,12 +204,11 @@
 %
 \column{.30\linewidth}
 	\includegraphics[width=\linewidth]{./gfx/HOM-full}
-	\begin{minipage}{\linewidth}
-		\tiny
+	{\scriptsize
 		Image Source:\\
 		Malte C. Tichy. \enquote{Interference of Identical Particles from Entanglement to Boson-Sampling}.
 		\emph{Journal of Physics B: Atomic, Molecular, and Optical Physics, Volume 47, Issue 10, article id. 103001 (2014)}
-	\end{minipage}
+	}
 \end{columns}
 %
 \end{frame}
@@ -220,7 +218,59 @@
 \begin{frame}{Scattering Amplitudes as Permanents}
 %
 \begin{itemize}
-\item Absorb complexities from equivalent rearrangements into matrix:
+\item Transition Probability (acessible experimentally):
+	$P(\sysArgs) = |A(\sysArgs)|^2$
+\item Introduce \emph{Mode Assignment List} $\vec{d}$
+	\begin{itemize}
+	\item \enquote{Where to find the $d_i^{\text{th}}$ photon}
+	\item 
+		$\vec{d}(\vec{q}) = \oplus_{j=1}^{K} \oplus_{k=1}^{q_j}(j)
+		= (
+			\underbrace{1, \ldots, 1}_{q_1\;\text{times}},
+			\underbrace{2, \ldots, 2}_{q_2\;\text{times}}, 
+			\ldots, 
+			\underbrace{K, \ldots, K}_{q_K\;\text{times}}
+		  )$
+	\end{itemize}
+\item Distinguishable particles in order:
+	\tabto{1.6cm}
+	$P_{\text{ord, dist}}(\sysArgs)
+=
+	\qty|
+		\prod_{j=1}^N
+			u_{d_j(\vec{m}), d_j(\vec{n})}
+	|^2$
+\item Sum over equivalent outcomes:
+	\tabto{1.6cm}
+	$P_{\text{acc, dist}}(\sysArgs)
+= 
+	\sum_{\sigma \in S_{\vec{d}(\vec{n})}}
+	\qty|
+		\prod_{j=1}^N
+			u_{d_j(\vec{m}), \sigma(j)}
+	|^2$
+\item Indistinguishable bosons:
+	\tabto{1.6cm}
+	$P_B(\sysArgs)
+=
+	\frac
+		{\prod_{j=1}^K n_j!}
+		{\prod_{j=1}^K m_j!}
+	\qty|
+		\sum_{\sigma \in S_{\vec{d}(\vec{n})}}
+		\prod_{j=1}^N
+			u_{d_j(\vec{m}), \sigma(j)}
+	|^2$
+\end{itemize}
+%
+\end{frame}
+
+% =========================================================================== %
+
+\begin{frame}{Scattering Amplitudes as Permanents}
+%
+\begin{itemize}
+\item Absorb Assignment List into Matrix:
 	\begin{align*}
 			\mathbb{V}
 		&\coloneqq
@@ -233,7 +283,7 @@
 		&\coloneqq
 			u_{d_j(\vec{m}), d_k(\vec{n})}
 	\end{align*}
-\item Retrieve the permanent:
+\item Retrieve the Permanent:
 	\begin{equation*}
 		P_B(\sysArgs)
 	=
@@ -293,11 +343,37 @@
 	\end{align*}
 \end{itemize}
 %
-\begin{minipage}{\linewidth}
-\tiny
-Source: Thomas Engl, Juan Diego Urbina, and Quirin Hummel, and Klaus Richter.
-\enquote{Complex scattering as canonical transformation: A semiclassical approach in Fock space}
-\end{minipage}
+\end{frame}
+
+% =========================================================================== %
+
+\begin{frame}{Scattering Amplitude as Polynomial}
+%
+\begin{itemize}
+\item Use Multinomial Theorem:
+	\begin{align*}
+		\qty(
+			\sum_{l=1}^{m} x_l
+		)^{n}
+	&=
+		\sum_{\substack{\sum_{l=1}^m k_l = n \\ k_l \geq 0}}
+		\begin{pmatrix}
+			n \\ k_1, k_2, \ldots, k_m
+		\end{pmatrix}
+		\prod_{t=1}^{m}
+			x_t^{k_t}
+	&
+	\text{where}
+	&&
+		\begin{pmatrix}
+			n \\ k_1, k_2, \ldots, k_m
+		\end{pmatrix}
+	&=
+		\frac{n!}
+		{\prod_{l=1}^m k_l !}
+	\end{align*}
+\item Get closed form expression for exact scattering amplitude
+\end{itemize}
 %
 \end{frame}
 
@@ -350,32 +426,21 @@ and
 
 % =========================================================================== %
 
-\begin{frame}[fragile]{Runtime Analysis}
+\begin{frame}{Runtime Analysis}
 %
-\begin{columns}[t]
-\column{.5\linewidth}
-	\begin{itemize}
-	\item Coefficient matrix $\Gamma$:
-		\begin{itemize}
-		\item integer matrices of size $K \times (K - 1)$
-		\item matrix elements between $0..N$
-		\item[\Thus] $\bigo{N^{K^2}}$ coefficient matrices
-		\end{itemize}
-	\end{itemize}
-%
-\column{.5\linewidth}
-	\begin{itemize}
-	\item Summands $f(\Gamma, \sysArgs)$:
-		\begin{itemize}
-		\item Triple product symbol
-		\item Upper boundary $\leq K$
-		\item[\Thus] $\bigo{K^3}$ per summand
-		\end{itemize}
-	\end{itemize}
-\end{columns}
-%
-\vspace{6pt}
 \begin{itemize}
+\item Coefficient matrix $\Gamma$:
+	\begin{itemize}
+	\item integer matrices of size $K \times (K - 1)$
+	\item matrix elements between $0..N$
+	\item[\Thus] $\bigo{N^{K^2}}$ coefficient matrices
+	\end{itemize}
+\item Summands $f(\Gamma, \sysArgs)$:
+	\begin{itemize}
+	\item Triple product symbol
+	\item Upper boundary $\leq K$
+	\item[\Thus] $\bigo{K^3}$ per summand
+	\end{itemize}
 \item[\Thus] $\bigo{K^3 N^{K^2}} = \bigo{N^{3\log_N(K) + K^2}}$ FLOPs
 \item Exponential in $K$, polynomial in $N$
 \item Note: Ryser Formula for Permanents: $\bigo{2^{n - 1} n^2}$ FLOPs
@@ -506,7 +571,7 @@ Where
 %
 \begin{align*}
 	\oint_{\gamma} \dd[K]{\vec{z}}
-		\exp[-\iunit \lambda f(\vec{z})]
+		\exp[-\lambda f(\vec{z})]
 &\approx
 	\qty( \frac
 		{2\pi}
@@ -611,8 +676,8 @@ where
 %
 \begin{itemize}
 \item Factor $P$ comprises of terms of form $\sqrt{\smallfrac{k!}{k^k}}$ with $k \in \setNaturals$
-%\item Big numbers out of int-range for processors, need to be treated as floating point numbers early on (or use big integer libraries)
-%\item Acquire big numerical errors
+\item Big numbers out of int-range for processors, need to be treated as floating point numbers early on (or use big integer libraries)
+\item Acquire big numerical errors
 \item Stirling's approximation:
 	\begin{equation*}
 		n! \approx \sqrt{2\pi n} \exp(-n) n^n
@@ -646,27 +711,17 @@ where
 %
 \begin{itemize}
 \item Problem Statement: Phase Retrieval Problem
-	\vspace{-10pt}
-	\begin{columns}[t]
-	\column{.4\linewidth}
 	\begin{itemize}
 	\item Let there be functions $f(x), \hat{f}(\omega)$
 	\item $\hat{f}(\omega) = \mathcal{F}_x[f]$ : Fourier pair
-	\end{itemize}
-	%
-	\column{.5\linewidth}
-	\begin{itemize}
 	\item Known are only modulus data $F, \hat{F}$
 	\item $F(x) = \abs{f(x)}$ and $\hat{F}(\omega) = \abs{\hat{f}(x)}$
 	\end{itemize}
-	\end{columns}
-	
-\item[\Thus] Find a function $\theta: \setReals \to \setReals$ such that $f(x) = \exp(\Big. \iunit \theta(x)) F(x)$
+\item[\Thus] Find a function $\theta(x)$ such that 	$f(x) = \exp(\Big. \iunit \theta(x)) F(x)$
 \item Discretized version
 	\begin{itemize}
 	\item $f(x) \to \vec{f}$ where $f_k = f(x_k)$ and $x_k = j \Delta x$
-	\item $\mathcal{F}_x : \hat{\vec{f}} = \mathbb{W} \vec{f}$
-	\item $\mathbb{W}$: DFT matrix (\ie \matU)
+	\item $\mathcal{F}_x : \hat{\vec{f}} = \matU \vec{f}$
 	\end{itemize}
 \end{itemize}
 %
@@ -682,7 +737,7 @@ where
 	\begin{align*}
 		\hat{f}^{(k)}(\omega) &= \mathcal{F}_x f^{(k)}(x)
 	&
-		\hat{\vec{f}}^{(k)} &= \mathbb{W} \vec{f}^{(k)}
+		\hat{\vec{f}}^{(k)} &= \matU \vec{f}^{(k)}
 \\
 		\hat{f}^{(k + 1)}(\omega)
 	&=
@@ -700,7 +755,7 @@ where
 \\
 		\tilde{f}^{(k + 1)}(x) &= \mathcal{F}^{-1}_x  f^{(k)}(x)
 	&
-		\tilde{\vec{f}}^{(k + 1)} &= \mathbb{W}^{-1} \vec{f}^{(k + 1)}
+		\tilde{\vec{f}}^{(k + 1)} &= \matU^{-1} \vec{f}^{(k + 1)}
 \\
 		f^{(k + 1)}(x)
 	&=
@@ -732,7 +787,7 @@ where
 %
 \begin{itemize}
 \item Different $\vec{\theta}^{(0)}$ gives different solution
-\item Brute Force exploration of $K$-dimensional space of initial guesses
+\item Brute Force exploration of $K$ dimensional phase space
 \end{itemize}
 %
 \begin{minipage}{\linewidth}
@@ -745,7 +800,7 @@ where
 
 % =========================================================================== %
 
-\begin{frame}{Implementation: Structure of PRA}
+\begin{frame}{Implementation: Structure}
 %
 \begin{columns}[t]
 \column{.65\linewidth}
@@ -757,13 +812,13 @@ where
 \column{.4\linewidth}
 \begin{itemize}
 \item Input: \texttt{.ini} file (pairs in form \texttt{key = value})
-%	\begin{itemize}
-%	\item Number of photons and modes
-%	\item List of occupation lists
-%	\item Sweep description
-%	\item Filter parameters
-%	\item Output file specifications
-%	\end{itemize}
+	\begin{itemize}
+	\item Number of photons and modes
+	\item List of occupation lists
+	\item Sweep description
+	\item Filter parameters
+	\item Output file specifications
+	\end{itemize}
 \item Parallelized Processing, variable number of threads
 \item Output:
 	\begin{itemize}
@@ -777,66 +832,26 @@ where
 
 % =========================================================================== %
 
-\begin{frame}[fragile]
+\begin{frame}{Implementation: Structure}
 %
 \begin{columns}[t]
-\column{.35\linewidth}
-\phantom{x}
-
-\vspace{6pt}
-\begin{Large}
-	Settings Files
-\end{Large}
-\vspace{12pt}
+\column{.7\linewidth}
+\begin{center}
+	\includegraphics[width=\linewidth]{./gfx/Scheme-FO}
+\end{center}
 %
+\column{.3\linewidth}
 \begin{itemize}
-\item Definition of multiple occupations
-\item Definition of initial guesses
-\item Plotting Parameters
-\item Filter Parameters
-\item Different kinds of maps and lists
+\item Input: \texttt{std::span<T>} (non-owning view of contiguous memory, compatible with \texttt{std::vector<T>}
+\item Output: CSV-like \texttt{.txt} files, gnuplot scripts, \texttt{.pdf} plots
 \end{itemize}
-%
-\column{.65\linewidth}
-\begin{minted}[fontsize=\tiny]{ini}
-N_modes   = 3
-N_photons = 4
-threads   = 4
-
-# possible values for keyword_occupation: NONZERO, EQUAL, ALL
-keyword_occupation      = NONZERO
-
-# possible values for keyword keyword_initial_guess: SWEEP, SINGLE
-keyword_initial_guess   = SWEEP
-parameter_initial_guess = 0:2PI:201; 0:2PI:201; 3.1415
-
-epsilon_convergence = 1E-6
-epsilon_backtest    = 1E+1
-epsilon_unique      = 1E-3
-max_iterations      = 1500
-
-# possible values for mission:
-#   FINDUNIQUE,
-#   MAKEPHASELIST, MAKEVECTORLIST,
-#   MAKEIDMAP, MAKEITERMAP, MAKECONVERGENCEMAP, MAKESUCCESSMAP,
-#   MAKEEFFORTMAP, MAKEERRORCOUNTMAP, MAKESOLUTIONCOUNTMAP
-mission         = FINDUNIQUE, MAKEVECTORLIST, MAKEERRORCOUNTMAP, MAKEIDMAP
-outputformat    = TXT, GNUPLOT, PDF
-plotdimensions  = AUTO
-plotslice       = AUTO
-
-filename_directory = ./output/
-filename_prefix = sweep2D_K=3_N=4
-filename_midfix = EXPLICIT
-filename_suffix = 
-\end{minted}
 \end{columns}
 %
 \end{frame}
 
 % =========================================================================== %
 
-\begin{frame}{Implementation: Structure of SPA}
+\begin{frame}{Implementation: Structure}
 %
 \vspace{-15pt}
 \begin{columns}[t]
@@ -848,7 +863,7 @@ filename_suffix =
 \column{.3\linewidth}
 \begin{itemize}
 \item Input: Settings file, plus phaselist CSV(s)
-\item Computation of scattering amplitudes for a number of scattering problems $\vec{m}^{(l)} \to \vec{n}^{(l)}$ in a single run
+\item Computation of scattering amplitudes for a number of scattering problems $\vec{m}^{(l)} \to \vec{n}\vec{m}^{(l)}$ in a single run
 \item Output: Again: CSVs, PDFs
 \item Several Reports: SPA result, exact amplitude (polynomial formula), difference, map of error codes
 \end{itemize}
@@ -890,31 +905,9 @@ filename_suffix =
 
 \begin{frame}{Difference: SPA vs. Exact}
 %
-\begin{columns}
-\column{.6\linewidth}
-	\includegraphics[width=\linewidth]{./gfx/Probabilty-K2-Delta}
-%
-\column{.4\linewidth}
-	\begin{itemize}
-	\item Axes: Configuration
-		\begin{itemize}
-		\item $x$: Outgoing
-		\item $y$: Incoming
-		\end{itemize}
-	\item Absolute Difference of Transition Probabilities
-		\begin{itemize}
-		\item abs([Probability SPA] - [Probability Exact])
-		\end{itemize}
-	\item Zeros predicted correctly
-		\begin{itemize}
-		\item[\Thus] Interference modelled correctly!
-		\end{itemize}
-	\item Bad results on the boundaries
-		\begin{itemize}
-		\item Expected -- $\lambda$ parameter small
-		\end{itemize}
-	\end{itemize}
-\end{columns}
+\begin{center}
+	\includegraphics[width=.8\linewidth]{./gfx/Probabilty-K2-Delta}
+\end{center}
 %
 \end{frame}
 
@@ -987,7 +980,6 @@ filename_suffix =
 \begin{frame}{Parameters}
 %
 \begin{itemize}
-\item \texttt{max\_iterations} -- how many iterations to compute at most
 \item \texttt{epsilon\_convergence} -- demand $\norm{\vec{\Psi} - \text{PRA}(\vec{\Psi})} < \varepsilon_{\text{conv}}$ to even consider a state as a solution
 	\begin{itemize}
 	\item Too big -- will find wrong solutions
@@ -997,147 +989,27 @@ filename_suffix =
 	\begin{itemize}
 	\item Loops are possible
 	\item Pathologic cases involving zero occupancies
+	\item Too narrow value might discard reasonable values
 	\end{itemize}
 \item \texttt{epsilon\_unique} -- demand $\norm{\vec{\theta}^{(r)} - \vec{\theta}^{\text{new}}} < \varepsilon_{\text{unique}}$
+	\begin{itemize}
+	\item Too big -- might discard close-by solutions
+	\item Too small -- might accept numerical error as new faulty solution (overcounting)
+	\end{itemize}
+\item \texttt{max\_iterations} -- how many iterations to compute at most
 \end{itemize}
 %
 \end{frame}
 
 % =========================================================================== %
 
-\begin{frame}{Conclusion}
-%
-Proof of concept
-	\begin{itemize}
-	\item Mapped a QM interference problem onto the (classical) phase retrieval problem
-	\item Problem of multiplicity of solutions is actually part of the solution!
-	\item Interference of photons dictates the probability
-	\end{itemize}
-
-\vspace{6pt}
-Further work needed
-	\begin{itemize}
-	\item Best fit parameters for each scenario
-	\item Better ways of detecting correct and unique solutions
-	\end{itemize}
-%
-\end{frame}
-
-% =========================================================================== %
-
-\begin{frame}{Thank you very much for your attention!}
-%
-\begin{center}
-	%\includegraphics[width=.4\linewidth]{./gfx/Amp-K5-N4}
-	% trim=left bottom right top
-	\includegraphics[width=.8\linewidth, page=1, trim=0 0 0 10, clip]{./gfx/Probabilty-K3-Exact}
-\end{center}
-%
-\end{frame}
-
-% =========================================================================== %
-% APPENDIX
-% =========================================================================== %
-
-\setcounter{framenumber}{0}
-\begin{frame}{Scattering Amplitudes as Permanents}
+\begin{frame}{To put it in a nutshell}
 %
 \begin{itemize}
-\item Transition Probability (acessible experimentally):
-	$P(\sysArgs) = |A(\sysArgs)|^2$
-\item Introduce \emph{Mode Assignment List} $\vec{d}$
-	\begin{itemize}
-	\item \enquote{Where to find the $d_i^{\text{th}}$ photon}
-	\item 
-		$\vec{d}(\vec{q}) = \oplus_{j=1}^{K} \oplus_{k=1}^{q_j}(j)
-		= (
-			\underbrace{1, \ldots, 1}_{q_1\;\text{times}},
-			\underbrace{2, \ldots, 2}_{q_2\;\text{times}}, 
-			\ldots, 
-			\underbrace{K, \ldots, K}_{q_K\;\text{times}}
-		  )$
-	\end{itemize}
-\item Distinguishable particles in order:
-	\tabto{1.6cm}
-	$P_{\text{ord, dist}}(\sysArgs)
-=
-	\qty|
-		\prod_{j=1}^N
-			u_{d_j(\vec{m}), d_j(\vec{n})}
-	|^2$
-\item Sum over equivalent outcomes:
-	\tabto{1.6cm}
-	$P_{\text{acc, dist}}(\sysArgs)
-= 
-	\sum_{\sigma \in S_{\vec{d}(\vec{n})}}
-	\qty|
-		\prod_{j=1}^N
-			u_{d_j(\vec{m}), \sigma(j)}
-	|^2$
-\item Indistinguishable bosons:
-	\tabto{1.6cm}
-	$P_B(\sysArgs)
-=
-	\frac
-		{\prod_{j=1}^K n_j!}
-		{\prod_{j=1}^K m_j!}
-	\qty|
-		\sum_{\sigma \in S_{\vec{d}(\vec{n})}}
-		\prod_{j=1}^N
-			u_{d_j(\vec{m}), \sigma(j)}
-	|^2$
+\item Proof of concept
+\item Further work needed
+\item Best fit parameters for each scenario
+\item Better ways of detecting correct and unique solutions
 \end{itemize}
 %
 \end{frame}
-
-% =========================================================================== %
-
-\begin{frame}{Scattering Amplitude as Polynomial}
-%
-\begin{itemize}
-\item Use Multinomial Theorem:
-	\begin{align*}
-		\qty(
-			\sum_{l=1}^{m} x_l
-		)^{n}
-	&=
-		\sum_{\substack{\sum_{l=1}^m k_l = n \\ k_l \geq 0}}
-		\begin{pmatrix}
-			n \\ k_1, k_2, \ldots, k_m
-		\end{pmatrix}
-		\prod_{t=1}^{m}
-			x_t^{k_t}
-	&
-	\text{where}
-	&&
-		\begin{pmatrix}
-			n \\ k_1, k_2, \ldots, k_m
-		\end{pmatrix}
-	&=
-		\frac{n!}
-		{\prod_{l=1}^m k_l !}
-	\end{align*}
-\item Get closed form expression for exact scattering amplitude
-\end{itemize}
-%
-\end{frame}
-
-% =========================================================================== %
-
-\begin{frame}{Implementation: Structure of File Output Package}
-%
-\begin{columns}[t]
-\column{.7\linewidth}
-\begin{center}
-	\includegraphics[width=\linewidth]{./gfx/Scheme-FO}
-\end{center}
-%
-\column{.3\linewidth}
-\begin{itemize}
-\item Input: \texttt{std::span<T>} (non-owning view of contiguous memory, compatible with \texttt{std::vector<T>}
-\item Output: CSV-like \texttt{.txt} files, gnuplot scripts, \texttt{.pdf} plots
-\end{itemize}
-\end{columns}
-%
-\end{frame}
-\setcounter{framenumber}{29}

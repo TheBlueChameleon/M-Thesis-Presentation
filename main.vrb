@@ -1,0 +1,53 @@
+\begin{columns}[t]
+\column{.35\linewidth}
+\phantom{x}
+
+\vspace{6pt}
+\begin{Large}
+	Settings Files
+\end{Large}
+\vspace{12pt}
+%
+\begin{itemize}
+\item Definition of multiple occupations
+\item Definition of initial guesses
+\item Plotting Parameters
+\item Filter Parameters
+\item Different kinds of maps and lists
+\end{itemize}
+%
+\column{.65\linewidth}
+\begin{minted}[fontsize=\tiny]{ini}
+N_modes   = 3
+N_photons = 4
+threads   = 4
+
+# possible values for keyword_occupation: NONZERO, EQUAL, ALL
+keyword_occupation      = NONZERO
+
+# possible values for keyword keyword_initial_guess: SWEEP, SINGLE
+keyword_initial_guess   = SWEEP
+parameter_initial_guess = 0:2PI:201; 0:2PI:201; 3.1415
+
+epsilon_convergence = 1E-6
+epsilon_backtest    = 1E+1
+epsilon_unique      = 1E-3
+max_iterations      = 1500
+
+# possible values for mission:
+#   FINDUNIQUE,
+#   MAKEPHASELIST, MAKEVECTORLIST,
+#   MAKEIDMAP, MAKEITERMAP, MAKECONVERGENCEMAP, MAKESUCCESSMAP,
+#   MAKEEFFORTMAP, MAKEERRORCOUNTMAP, MAKESOLUTIONCOUNTMAP
+mission         = FINDUNIQUE, MAKEVECTORLIST, MAKEERRORCOUNTMAP, MAKEIDMAP
+outputformat    = TXT, GNUPLOT, PDF
+plotdimensions  = AUTO
+plotslice       = AUTO
+
+filename_directory = ./output/
+filename_prefix = sweep2D_K=3_N=4
+filename_midfix = EXPLICIT
+filename_suffix =
+\end{minted}
+\end{columns}
+%
