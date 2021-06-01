@@ -23,7 +23,8 @@
 %
 \begin{itemize}
 \item Use as bosonic equivalent to Slater Determinant
-\item Direct evaluation takes $\bigo{N!N}$ FLOPs -- compuatationally extremely hard (sign problem)
+\item Direct evaluation takes $\bigo{N!N}$ FLOPs -- compuatationally extremely hard\\
+	(sign problem)
 \item[\Thus] Bosonic systems can be used to \enquote{measure} the permanent
 \item[\Thus] Quantum Supremacy
 \item Need for Certification
@@ -220,6 +221,7 @@
 \begin{frame}{Scattering Amplitudes as Permanents}
 %
 \begin{itemize}
+\item Occupation lists $\vec{m}, \vec{n}$
 \item Absorb complexities from equivalent rearrangements into matrix:
 	\begin{align*}
 			\mathbb{V}
@@ -471,8 +473,9 @@ Where
 \begin{align*}
 	C
 &\coloneqq
-	(-1)^{b_o}
-	(2\pi)^{-(b_i + b_o)}
+	(-1)^{b_o} \;
+	\delta_{M,N} \;
+	(2\pi)^{-(b_i + b_o)} \;
 	\qty( \prod_{j : m_j \neq 0}
 		\sqrt{\frac
 			{ m_j! }
@@ -514,7 +517,7 @@ Where
 	)^{\frac{K}{2}}
 	\sum_{r}
 		\frac
-		{\exp(-\lambda f(\vec{z}^{(r)}))}
+		{\exp(-\iunit \lambda f(\vec{z}^{(r)}))}
 		{\sqrt{\det S^{(r)}}}
 \end{align*}
 
@@ -615,7 +618,7 @@ where
 %\item Acquire big numerical errors
 \item Stirling's approximation:
 	\begin{equation*}
-		n! \approx \sqrt{2\pi n} \exp(-n) n^n
+		k! \approx \sqrt{2\pi k} \exp(-k) k^k
 	\end{equation*}
 \item Get rid of $\frac{k^k}{k^k}$ in $P$, get expression for scattering amplitude:
 	\begin{align*}
@@ -637,6 +640,40 @@ where
 			\qty( \prod_{k : n_k \neq 0} n_k )
 	\end{align*}
 \end{itemize}
+%
+\end{frame}
+
+% =========================================================================== %
+
+\begin{frame}{Saddle Point Condition}
+%
+\begin{gather*}
+	\pdv{f}{\theta_p}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l)]
+	]
+=
+	0 \\
+\Thus
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+=
+	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+\end{gather*}
+%
+\vspace{6pt}
+\begin{center}
+	or, briefly:
+\end{center}
+\vspace{6pt}
+%
+\begin{equation*}
+	\vec{x}^{*} = \mathbb{U} \vec{y}
+\end{equation*}
 %
 \end{frame}
 
@@ -667,6 +704,7 @@ where
 	\item $f(x) \to \vec{f}$ where $f_k = f(x_k)$ and $x_k = j \Delta x$
 	\item $\mathcal{F}_x : \hat{\vec{f}} = \mathbb{W} \vec{f}$
 	\item $\mathbb{W}$: DFT matrix (\ie \matU)
+	\item $F_j, \hat{F}_j$: square roots of occupation lists ($x_j = \sqrt{m_j}, y_j = \sqrt{n_j}$)
 	\end{itemize}
 \end{itemize}
 %
@@ -677,7 +715,7 @@ where
 \begin{frame}{Finding The Saddle Points: Phase Retrieval}
 %
 \begin{itemize}
-\item Start with an initial guess $\theta^{(0)}(x)$ and define $f^{(0)}(x) = F(x) \exp(\Big.\iunit \theta(x))$
+\item Start with an initial guess $\theta^{(0)}(x)$ and define $f^{(0)}(x) = F(x) \exp(\Big.\iunit \theta^{(0)}(x))$
 \item Iteratively compute
 	\begin{align*}
 		\hat{f}^{(k)}(\omega) &= \mathcal{F}_x f^{(k)}(x)
@@ -688,8 +726,8 @@ where
 	&=
 		\hat{F}(\omega)
 		\frac
-			{ \hat{f}^{(k + 1)}(\omega) }
-			{|\hat{f}^{(k + 1)}(\omega)|}
+			{ \hat{f}^{(k)}(\omega) }
+			{|\hat{f}^{(k)}(\omega)|}
 	&
 		\hat{f}^{(k + 1)}_j
 	&=
@@ -792,9 +830,9 @@ where
 \begin{itemize}
 \item Definition of multiple occupations
 \item Definition of initial guesses
+\item Different kinds of maps and lists
 \item Plotting Parameters
 \item Filter Parameters
-\item Different kinds of maps and lists
 \end{itemize}
 %
 \column{.65\linewidth}
@@ -808,12 +846,7 @@ keyword_occupation      = NONZERO
 
 # possible values for keyword keyword_initial_guess: SWEEP, SINGLE
 keyword_initial_guess   = SWEEP
-parameter_initial_guess = 0:2PI:201; 0:2PI:201; 3.1415
-
-epsilon_convergence = 1E-6
-epsilon_backtest    = 1E+1
-epsilon_unique      = 1E-3
-max_iterations      = 1500
+parameter_initial_guess = 0:2PI
 
 # possible values for mission:
 #   FINDUNIQUE,
@@ -828,7 +861,12 @@ plotslice       = AUTO
 filename_directory = ./output/
 filename_prefix = sweep2D_K=3_N=4
 filename_midfix = EXPLICIT
-filename_suffix = 
+filename_suffix = :201; 0:2PI:201; 3.1415
+
+epsilon_convergence = 1E-6
+epsilon_backtest    = 1E+1
+epsilon_unique      = 1E-3
+max_iterations      = 1500
 \end{minted}
 \end{columns}
 %
@@ -892,7 +930,7 @@ filename_suffix =
 %
 \begin{columns}
 \column{.6\linewidth}
-	\includegraphics[width=\linewidth]{./gfx/Probabilty-K2-Delta}
+	\includegraphics[width=\linewidth]{./gfx/Probabilty-K2-DeltaRelative}
 %
 \column{.4\linewidth}
 	\begin{itemize}
@@ -901,10 +939,12 @@ filename_suffix =
 		\item $x$: Outgoing
 		\item $y$: Incoming
 		\end{itemize}
-	\item Absolute Difference of Transition Probabilities
-		\begin{itemize}
-		\item abs([Probability SPA] - [Probability Exact])
-		\end{itemize}
+	\item Relative Difference of Transition Probabilities
+		$
+			\frac
+				{\left| \big. [\text{Probability SPA}] - [\text{Probability Exact}] \right|}
+				{[\text{Probability Exact}]}
+		$
 	\item Zeros predicted correctly
 		\begin{itemize}
 		\item[\Thus] Interference modelled correctly!
@@ -941,10 +981,46 @@ filename_suffix =
 \column{.5\linewidth}
 \begin{itemize}
 \item Runs with different filter settings
-\item About 10 min computation time per run
+\item About 20 min computation time per run
 \item (4 threads, CIP pool computers via SSH)
 \end{itemize}
 \end{columns}
+%
+\end{frame}
+
+% =========================================================================== %
+
+\begin{frame}
+%
+\begin{columns}[b]
+\column{.7\linewidth}
+	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-1-SPA}
+%
+\column{.3\linewidth}
+	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-1-Rel}
+	
+	\begin{itemize}
+	\item Some characteristic patterns reproduced
+	\item Many bad data points
+	\item Accumulated probabilites \emph{in a reasonable range}
+	\end{itemize}
+\end{columns}
+\begin{itemize}
+\item[\Thus] Actually best of several filter settings
+\end{itemize}
+%
+%
+% used: K3-1: "run 03" in pull directory
+% epsilon_convergence = 1E-2
+% epsilon_backtest    = 5E-2
+% epsilon_unique      = 1E+1
+% max_iterations      = 300
+%
+% used: K3-2: "run 10" in pull directory
+% epsilon_convergence = 1E-3
+% epsilon_backtest    = 1E+1
+% epsilon_unique      = 1E-3
+% max_iterations      = 300
 %
 \end{frame}
 
@@ -957,7 +1033,7 @@ filename_suffix =
 \end{minipage}
 %
 \begin{minipage}{.49\linewidth}
-	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-1-Delta}
+	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-1-Rel}
 \end{minipage}
 %
 \begin{minipage}{.49\linewidth}
@@ -965,7 +1041,7 @@ filename_suffix =
 \end{minipage}
 %
 \begin{minipage}{.49\linewidth}
-	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-2-Delta}
+	\includegraphics[width=\linewidth, page=1]{./gfx/Probabilty-K3-2-Rel}
 \end{minipage}
 %
 % used: K3-1: "run 03" in pull directory
@@ -988,17 +1064,17 @@ filename_suffix =
 %
 \begin{itemize}
 \item \texttt{max\_iterations} -- how many iterations to compute at most
-\item \texttt{epsilon\_convergence} -- demand $\norm{\vec{\Psi} - \text{PRA}(\vec{\Psi})} < \varepsilon_{\text{conv}}$ to even consider a state as a solution
+\item \texttt{epsilon\_convergence} -- demand $\norm{\vec{x} - \text{PRA}(\vec{x})} < \varepsilon_{\text{conv}}$ to even consider a state as a solution
 	\begin{itemize}
 	\item Too big -- will find wrong solutions
 	\item Too small -- increases computation time, might not converge at all
 	\end{itemize}
-\item \texttt{epsilon\_backtest} -- demand $\norm{\vec{\Psi} - \matU \vec{\Phi}} < \varepsilon_{\text{back}}$
+\item \texttt{epsilon\_backtest} -- demand $\norm{\vec{x}^* - \matU \vec{y}} < \varepsilon_{\text{back}}$
 	\begin{itemize}
 	\item Loops are possible
 	\item Pathologic cases involving zero occupancies
 	\end{itemize}
-\item \texttt{epsilon\_unique} -- demand $\norm{\vec{\theta}^{(r)} - \vec{\theta}^{\text{new}}} < \varepsilon_{\text{unique}}$
+\item \texttt{epsilon\_unique} -- demand $\norm{\vec{\theta}^{(r)} - \vec{\theta}^{\text{new}}} > \varepsilon_{\text{unique}}$
 \end{itemize}
 %
 \end{frame}
@@ -1012,6 +1088,7 @@ Proof of concept
 	\item Mapped a QM interference problem onto the (classical) phase retrieval problem
 	\item Problem of multiplicity of solutions is actually part of the solution!
 	\item Interference of photons dictates the probability
+	\item \emph{All paths taken}
 	\end{itemize}
 
 \vspace{6pt}
@@ -1019,6 +1096,7 @@ Further work needed
 	\begin{itemize}
 	\item Best fit parameters for each scenario
 	\item Better ways of detecting correct and unique solutions
+	\item Intelligent choice of reference mode
 	\end{itemize}
 %
 \end{frame}
@@ -1140,4 +1218,4 @@ Further work needed
 \end{columns}
 %
 \end{frame}
-\setcounter{framenumber}{29}
+\setcounter{framenumber}{31}

@@ -12,6 +12,7 @@
 *.run.xml
 *.nav
 *.snm
+*.vrb
 
 # files to ignore
 .directory
